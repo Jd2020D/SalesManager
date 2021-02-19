@@ -16,11 +16,7 @@ const FridgeSchema = new mongoose.Schema({
     },
     serialNumber: {
       type: String,
-    },
-    quantity:{
-      type:Number,
-      default:1
-  }
+    }
 
 
   }, {timestamps: true});

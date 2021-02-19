@@ -8,17 +8,24 @@ const CustomerSchema = new mongoose.Schema({
     type: String,
     required:[true,"location is required"]
   },
-  fridges:[{
-    type:String,
-    ref:'Fridge',
-    validate:{
-      validator:async val=>{
-        return await Fridge.findOne({_id:val})
-        .then(res=>res)
-        .catch(err=>false)
+  fridges:[
+    {
+      fridge:{
+        type:String,
+        ref:'Fridge',
+        validate:{
+          validator:async val=>{
+            return await Fridge.findOne({_id:val})
+            .then(res=>res)
+            .catch(err=>false)
+          },
+          message:'fridge is not found'
+        }    
       },
-      message:'fridge is not found'
-    }
+      quantity:{
+        type:Number,
+        default:1
+      }
 }]
 }, {timestamps: true});
 

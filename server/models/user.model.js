@@ -45,7 +45,6 @@ const UserSchema = new mongoose.Schema({
     },
     region:{
       type: String,
-      required:[true,"region is required"]
     },
     customers:[{
       type:String,

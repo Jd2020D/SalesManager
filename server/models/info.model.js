@@ -1,3 +1,4 @@
+const True=async()=>true;
 const Info = {
     firstName: {
         type: String,
@@ -24,13 +25,15 @@ const Info = {
             },
             { 
                 validator:  async function (val){
+
                     return await this.constructor.findOne({email:val})
                     .then(res=>{
                         if(res===null)
                             return true;
                         return false;
                     })
-                    .catch(err=>false)
+                    .catch(err=>false);
+
                 } ,
                 message: "This email is exist" 
             },
