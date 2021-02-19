@@ -8,9 +8,13 @@ const FridgeSchema = new mongoose.Schema({
       validate:{
         validator:async val=>{
           return await Type.findOne({_id:val})
-          .then(res=>res)
-          .catch(err=>false)
-        },
+          .then(res=>{
+              if(res===null)
+                  return true;
+              return false;
+          })
+          .catch(err=>false);
+},
         message:'type is not found'
       }
     },

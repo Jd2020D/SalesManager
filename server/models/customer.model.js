@@ -10,7 +10,7 @@ const CustomerSchema = new mongoose.Schema({
   },
   fridges:[
     {
-      fridge:{
+      fridgeId:{
         type:String,
         ref:'Fridge',
         validate:{

@@ -1,4 +1,3 @@
-const True=async()=>true;
 const Info = {
     firstName: {
         type: String,
@@ -25,7 +24,9 @@ const Info = {
             },
             { 
                 validator:  async function (val){
-
+                    // dont check the exist of email if the schema hadnt role property(is a customer)
+                    if(Boolean(!this.Role))
+                        return true;
                     return await this.constructor.findOne({email:val})
                     .then(res=>{
                         if(res===null)
