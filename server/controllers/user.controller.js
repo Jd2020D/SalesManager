@@ -6,7 +6,7 @@ const { request, response } = require('express');
 require('dotenv').config();
 
 module.exports.getSingleUserById=(request, response) => {
-     response.json(user);
+     response.json(response.locals.user);
 }
 
 

@@ -12,14 +12,14 @@ module.exports.authenticate =  (req, res, next) => {
       if (user===null)
         res.status(401).json({verified: false});
       else{
-        req.user=user;
+        res.locals.user=user;
         next();
       }
     }
   });
 }
-module.exports.authorizeAdmin = (req, res, next) => {
-  if(!req.user.isAdmin)
+module.exports.isAdmin = (req, res, next) => {
+  if(!res.locals.user.isAdmin)
    res.status(401).json({verified: false});
    else{
      next();
