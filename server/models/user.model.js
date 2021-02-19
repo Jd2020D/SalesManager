@@ -43,6 +43,10 @@ const UserSchema = new mongoose.Schema({
         default:true
       }
     },
+    region:{
+      type: String,
+      required:[true,"region is required"]
+    },
     customers:[{
       type:String,
       ref:'Customer',
