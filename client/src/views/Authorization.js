@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import Books from './Books'
 import axios from 'axios';
-import MapPanel from './MapPanel';
+// import MapPanel from './MapPanel';
 
 const Authorization = (props) => {
     const {user ,clearUser} =props;
@@ -17,7 +17,7 @@ const Authorization = (props) => {
         <>
         <h1>welcome {user.firstName} {user.lastName}</h1>
         <button onClick={e=>logout()}>log out</button>
-        <MapPanel/>
+        {/*<MapPanel/>*/}
         </>
     )
 }
