@@ -10,8 +10,8 @@ const FridgeSchema = new mongoose.Schema({
           return await Type.findOne({_id:val})
           .then(res=>{
               if(res===null)
-                  return true;
-              return false;
+                  return false;
+              return true;
           })
           .catch(err=>false);
 },
