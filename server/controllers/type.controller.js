@@ -18,24 +18,21 @@ module.exports.getAllTypes = (_req, res) => {
 
 
 module.exports.findSingleType = (req, res) => {
-    const {id} = req.params;
-    Type.findById(id)
+
+    Type.findById(req.params.id)
         .then(type => res.json(type))
         .catch(err => res.json(err));
 }
 
 
 module.exports.deleteType = (req, res) => {
-    const {id} = req.params;
-    Type.findByIdAndDelete(id)
+    Type.findByIdAndDelete(req.params.id)
         .then(() => res.json({success: true}))
         .catch(err => res.json(err));
 }
 
 module.exports.updateType = (req, res) => {
-    const {id} = req.params;
-    const {title} = req.body;
-    Type.findByIdAndUpdate(id, {title: title}, {new: true, runValidators: true})
+    Type.findByIdAndUpdate(req.params.id,req.body, {new: true, runValidators: true})
         .then(updated => res.json(updated))
         .catch(err => res.status(400).json(err));
 }
