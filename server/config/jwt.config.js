@@ -19,7 +19,7 @@ module.exports.authenticate =  (req, res, next) => {
   });
 }
 module.exports.isAdmin = (req, res, next) => {
-  if(!res.locals.user.isAdmin)
+  if(!res.locals.user.Role.isAdmin)
    res.status(401).json({verified: false});
    else{
      next();

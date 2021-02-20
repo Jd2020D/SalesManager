@@ -1,6 +1,7 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Books from './Books'
 import axios from 'axios';
+import MapPanel from './MapPanel';
 
 const Authorization = (props) => {
     const {user ,clearUser} =props;
@@ -12,12 +13,11 @@ const Authorization = (props) => {
         .catch(err=>console.log(err))
 
     }
-    return (
+    return (    
         <>
         <h1>welcome {user.firstName} {user.lastName}</h1>
-        <h3>Country: {user.country.name}</h3>
         <button onClick={e=>logout()}>log out</button>
-        <Books books={user.books} userId={user._id}/>
+        <MapPanel/>
         </>
     )
 }
