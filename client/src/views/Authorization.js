@@ -16,9 +16,7 @@ const Authorization = (props) => {
     }
     return (    
         <>
-        <NavBar changePage={(pageNumber)=>{setCurrentPage(pageNumber)}} isAdmin={user.Role.isAdmin}/>
-        <h1>welcome {user.firstName} {user.lastName}</h1>
-        <button onClick={e=>logout()}>log out</button>
+        <NavBar changePage={(pageNumber)=>{setCurrentPage(pageNumber)}} logout={logout} isAdmin={user.Role.isAdmin}/>
         <CurrentPageComponent user={user} currentPageNumber={currentPage}/>
         </>
     )

@@ -8,7 +8,7 @@ module.exports.createCustomer = (request, response) => {
 }
 
 module.exports.updateCustomer=(req,res)=>{
-    Customer.findByIdAndUpdate({_id:req.params.id},req.body,{runValidators:true})
+    Customer.findByIdAndUpdate({_id:req.params.id},req.body,{runValidators:true,new:true})
         .then(updatedUser => res.json(updatedUser))
         .catch(err => res.status(400).json(err));
 }
