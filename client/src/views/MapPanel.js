@@ -1,8 +1,20 @@
 import React,{useState,useRef} from 'react'
 import MyMap from './MyMap';
-import DetailsSidePanel from './DetailsSidePanel';
+
 import CustomersMarkers from './CustomersMarkers';
-import CustomerForm from './CustomerForm';
+import SidePanels from './SidePanels';
+// {currentComponent===0?<DetailsSidePanel 
+//     {...sharedProps1}
+//     zoomHandler={zoomHandler}
+//     changeComponent={(num)=>setCurrentComponent(num)}
+//     activeMarkerPin={activeMarkerPin.current} 
+//     currentCustomerPanel={currentCustomerPanel} 
+//     deleteCustomer={deleteCustomer}
+//     />
+//     //}CustomerForm should be inside CreateCustomer in case we make it reusable for both create and update!
+//     :currentComponent===1?<CustomerForm locationResponse={locationToAdd} requestLocation={requestLocation} changeComponent={(num)=>setCurrentComponent(num)}/>
+//     :''
+//     }        
 
 const customersArr=[
     {
@@ -41,7 +53,6 @@ const customersArr=[
 
 ]
 const MapPanel = (props) => {
-    const [currentComponent,setCurrentComponent]=useState(0);
     const [customers,setCustomers]=useState(customersArr);
     const [currentCustomer,setCurrentCustomer]=useState({_id:false});
     const [locationToAdd,setLocationToAdd]=useState({});
@@ -105,19 +116,18 @@ const MapPanel = (props) => {
         updateCurrentCustomerLocation={updateCurrentCustomerLocation}
         locationRequest={locationToAdd.req}
         locationResponse={(location)=>setLocationToAdd(location)}
-        />} /> 
-        {currentComponent===0?<DetailsSidePanel 
-        {...sharedProps1}
-        zoomHandler={zoomHandler}
-        changeComponent={(num)=>setCurrentComponent(num)}
-        activeMarkerPin={activeMarkerPin.current} 
-        currentCustomerPanel={currentCustomerPanel} 
-        deleteCustomer={deleteCustomer}
+        />} />
+        
+        <SidePanels
+                sharedProps1={sharedProps1}
+                zoomHandler={zoomHandler}
+                activeMarkerPin={activeMarkerPin.current} 
+                currentCustomerPanel={currentCustomerPanel} 
+                deleteCustomer={deleteCustomer}
+                requestLocation={requestLocation} 
+                locationResponse={locationToAdd}
+        
         />
-        //}CustomerForm should be inside CreateCustomer in case we make it reusable for both create and update!
-        :currentComponent===1?<CustomerForm locationResponse={locationToAdd} requestLocation={requestLocation} changeComponent={(num)=>setCurrentComponent(num)}/>
-        :''
-        }        
         </div>
     )
 }

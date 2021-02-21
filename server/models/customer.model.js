@@ -10,9 +10,10 @@ const CustomerSchema = new mongoose.Schema({
   },
   fridges:[
     {
-      fridgeId:{
+      _id:{
         type:String,
         ref:'Fridge',
+        required:[true,'fridge _id is required'],
         validate:{
           validator:async val=>{
             return await Fridge.findOne({_id:val})

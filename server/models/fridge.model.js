@@ -24,5 +24,12 @@ const FridgeSchema = new mongoose.Schema({
 
 
   }, {timestamps: true});
+const autoPouplateType=function(next){
+  this.populate('type');
+  next();
+
+}
+FridgeSchema.pre('find',autoPouplateType);
+FridgeSchema.pre('findOne',autoPouplateType);
 module.exports.FridgeSchema=FridgeSchema;
 module.exports.Fridge = mongoose.model("Fridge", FridgeSchema);

@@ -1,9 +1,15 @@
 const { Fridge } = require('../models/fridge.model');
 
+const populateType = async (fridgId)=>{
+    return await Fridge.findById(fridgId).populate('type');
+}
+module.exports.populateType=populateType;
 module.exports.createFridge = (request, response) => {
     Fridge.create(request.body)
-        .then(Fridge => response.json(Fridge.populate('type')))
-        .catch(err => response.status(400).json(err));
+        .then(async fridge =>{
+            response.json(await populateType(fridge._id));
+        })
+        .catch(err => response.json(typeof(err)));
 }
 
 
@@ -35,7 +41,7 @@ module.exports.deleteFridge = (req, res) => {
 module.exports.updateFridge = (req, res) => {
 
 
-    Fridge.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true})
+    Fridge.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true}).populate('type')
         .then(updated => res.json(updated))
         .catch(err => res.status(400).json(err));
 }

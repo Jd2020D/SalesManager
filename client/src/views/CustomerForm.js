@@ -69,7 +69,6 @@ const CustomerForm = ({
                         </div>
 
                         <div className="form-group text-right">
-                        <button onClick={e=>changeComponent(0)}>Back</button> 
                             <button className="btn btn-primary btn-sm" style={{marginLeft: "10px"}}>Submit</button>
                         </div>
                     </form>
