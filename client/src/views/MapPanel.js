@@ -113,6 +113,7 @@ const MapPanel = (props) => {
         currentCustomerPanel={currentCustomerPanel} 
         deleteCustomer={deleteCustomer}
         />
+        //}CustomerForm should be inside CreateCustomer in case we make it reusable for both create and update!
         :currentComponent===1?<CustomerForm locationResponse={locationToAdd} requestLocation={requestLocation} changeComponent={(num)=>setCurrentComponent(num)}/>
         :''
         }        
