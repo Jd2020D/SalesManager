@@ -1,5 +1,8 @@
 import React from 'react'
 import CustomerForm from './CustomerForm';
+import Button from "@material-ui/core/Button";
+
+import Typography from "@material-ui/core/Typography";
 const CreateCustomer = ({
     changeComponent,
     requestLocation,
@@ -8,8 +11,12 @@ const CreateCustomer = ({
 }) => {
     return (
         <div>
-        <button onClick={e=>changeComponent(0)}>Back</button> 
-        <CustomerForm locationResponse={locationResponse} requestLocation={requestLocation} />
+
+            <Button   variant="contained" color="secondary" onClick={e=>changeComponent(0)}>Back</Button>
+
+
+        <CustomerForm title={"Create Customer"} locationResponse={locationResponse} requestLocation={requestLocation} />
+
         </div>
         )
 }

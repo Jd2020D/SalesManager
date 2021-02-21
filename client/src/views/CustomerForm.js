@@ -1,10 +1,55 @@
 import React, { useState,useEffect } from "react"
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import AddIcon from "@material-ui/icons/Add";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        height: "100vh"
+    },
+    paper: {
+        margin: theme.spacing(3, 4),
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main
+    },
+    form: {
+        width: "100%", // Fix IE 11 issue.
+        marginTop: theme.spacing(1)
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2)
+    }
+}));
+
 const CustomerForm = ({
     changeComponent,
     onSubmitProp,
     requestLocation,
-    locationResponse
+    locationResponse,
+    title
 }) => {
+    const classes = useStyles();
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -30,55 +75,146 @@ const CustomerForm = ({
             setLocation(locationResponse);
     }, [locationResponse])
     return(
-        <div className="container" style={{border:'1px solid black',height:'200px'}}>
-            <div className="row">
-                <div className="col-12">
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-6">
-                    <form onSubmit={ onSubmit }>
-                    <div className="form-group">
-                            <label>First Name:</label>
-                            <input onChange={(e)=>setFirstName(e.target.value)} value ={firstName} type="text" className="form-control"/>
-                        </div>
-                        <div className="form-group">
-                            <label>Last Name:</label>
-                            <input onChange={(e)=>setLastName(e.target.value)} value ={lastName} type="text" className="form-control"/>
-                        </div>
-                        <div className="form-group">
-                            <label>email:</label>
-                            <input onChange={(e)=>setEmail(e.target.value)} value ={email} type="text" className="form-control"/>
-                        </div>
-                        <div className="form-group">
-                            <label>Phone Number:</label>
-                            <input onChange={(e)=>setPhone(e.target.value)} value ={phone} type="text" className="form-control"/>
-                        </div>
-                        <div className="form-group">
-                            <label>Location:</label>
-                            <span >{"lat: "+location.lat}</span>
-                            <span >{"lng: "+location.lng}</span>
-                        </div>
-                        <div className="form-group">
-                            <label>Fridge:</label>
-                            <input onChange={(e)=>setFridge(e.target.value)} value ={firdge} type="text" className="form-control"/>
-                        </div>
-                        <div className="form-group">
-                            <label>Quantity:</label>
-                            <input onChange={(e)=>setQuantity(e.target.value)} value ={quantity} type="text" className="form-control"/>
-                        </div>
 
-                        <div className="form-group text-right">
-                            <button className="btn btn-primary btn-sm" style={{marginLeft: "10px"}}>Submit</button>
-                        </div>
-                    </form>
 
-                    <button onClick={e=>requestLocation()}>requestLocation</button> 
+        <div
+            className={classes.paper}
+            // style={{ maxHeight: 200, overflow: "auto" }}
+        >
 
-                    {errors.map((err, index) => <p key={index} style={{color:"red"}}>{err}</p>)}
-                </div>
-            </div>
+            <Typography component="h1" variant="h5">
+                {title}
+            </Typography>
+            <form onSubmit={ onSubmit } className={classes.form} noValidate>
+                <TextField
+                    onChange={(e)=>setFirstName(e.target.value)} value ={firstName}
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First name"
+                    name="firstName"
+                    autoComplete="text"
+                    autoFocus
+                />
+
+                <TextField
+                    onChange={(e)=>setLastName(e.target.value)} value ={lastName}
+
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Last name"
+                    name="lastName"
+                    autoComplete="text"
+                    autoFocus
+                />
+
+                <TextField
+                    onChange={(e)=>setEmail(e.target.value)} value ={email}
+
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                />
+
+                <TextField
+                    onChange={(e)=>setPhone(e.target.value)} value ={phone}
+
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="phoneNumber"
+                    label="Phone Number"
+                    name="phoneNumber"
+                    autoComplete="phoneNumber"
+                    autoFocus
+                />
+
+                <FormControl
+                    fullWidth
+                    variant="outlined"
+                    className={classes.formControl}
+                >
+                    <FormLabel>Location:</FormLabel>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="location"
+                        name="location"
+                        autoComplete="phoneNumber"
+                        autoFocus
+                        inputProps={{ readOnly: true }}
+                        value={"lat: "+location.lat + "    lng: "+location.lng }
+                    />
+                </FormControl>
+                <FormControl
+                    fullWidth
+                    variant="outlined"
+                    className={classes.formControl}
+                >
+                    <InputLabel htmlFor="outlined-age-native-simple">
+                        Fridge
+                    </InputLabel>
+                    <Select
+                        onChange={(e)=>setFridge(e.target.value)} value ={firdge}
+                        native
+                        value={""}
+                        onChange={""}
+                        label="Age"
+                        inputProps={{
+                            name: "age",
+                            id: "outlined-age-native-simple"
+                        }}
+                    >
+                        <option aria-label="None" value="" />
+                        <option value={10}>Ten</option>
+                        <option value={20}>Twenty</option>
+                        <option value={30}>Thirty</option>
+                    </Select>
+                </FormControl>
+
+                <TextField
+                    onChange={(e)=>setQuantity(e.target.value)} value ={quantity}
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="quantity"
+                    label="Quantity"
+                    name="quantity"
+                    autoFocus
+                />
+
+
+                <Button fullWidth type="submit" variant="contained" color="primary">
+                    Submit
+                </Button>
+
+
+            </form>
+            <Button fullWidth onClick={e=>requestLocation()}  variant="contained" color="secondary">
+                Request Location
+            </Button>
+
+            {errors.map((err, index) => <p key={index} style={{color:"red"}}>{err}</p>)}
+
         </div>
+
+
+
     )
 }
 export default CustomerForm;
