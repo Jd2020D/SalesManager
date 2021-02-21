@@ -1,10 +1,11 @@
 import React,{useState} from 'react'
 import Books from './Books'
 import axios from 'axios';
-import MapPanel from './MapPanel';
-
+import { NavBar } from './NavBar';
+import { CurrentPageComponent } from  './CurrentPageComponent';
 const Authorization = (props) => {
     const {user ,clearUser} =props;
+    const [currentPage,setCurrentPage]=useState(0);
     const logout =()=>{
         axios.get("http://localhost:8000/api/logout")
         .then(()=>{
@@ -15,9 +16,10 @@ const Authorization = (props) => {
     }
     return (    
         <>
+        <NavBar changePage={(pageNumber)=>{setCurrentPage(pageNumber)}} isAdmin={user.Role.isAdmin}/>
         <h1>welcome {user.firstName} {user.lastName}</h1>
         <button onClick={e=>logout()}>log out</button>
-        <MapPanel/>
+        <CurrentPageComponent user={user} currentPageNumber={currentPage}/>
         </>
     )
 }

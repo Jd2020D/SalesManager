@@ -48,6 +48,7 @@ const MapPanel = (props) => {
     const [zoomScale,setZoomScale]=useState(14);
     const activeMarkerPin= useRef(false);
     const currentCustomerPanel=useRef();
+    console.log("render main")
     const zoomHandler=(scale)=>{
         setZoomScale(prev=>{
             return scale<0||scale>18?prev:scale;
