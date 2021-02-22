@@ -1,18 +1,18 @@
 import React from 'react'
 import { makeStyles, Paper, Tab, Tabs, Toolbar} from "@material-ui/core";
-import logo from '../img/logo.png'
+import logo from '../img/iceIcon.png'
 import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import ExploreIcon from '@material-ui/icons/Explore';
- const useStyles = makeStyles((theme) => ({
+
+     const useStyles = makeStyles((theme) => ({
     toolbar: {
         borderBottom: `1px solid ${theme.palette.divider}`,
    },
      logo:{
         margin:'auto',
-         width:'80px',
-         height:'80px'
+         height:'75px'
      },
      root: {
          flexGrow: 1,
@@ -41,6 +41,7 @@ export const NavBar = ({
     return (
         <>
             <Toolbar className={classes.toolbar}>
+                {isAdmin&&<h1>Admin</h1>}
                 <img onClick={(e)=>changePage(0)} alt="logo" className={classes.logo} src={logo}/>
             </Toolbar>
             <Paper square className={classes.root}>
@@ -48,8 +49,8 @@ export const NavBar = ({
                     value={value}
                     onChange={handleChange}
                     variant="fullWidth"
-                    indicatorColor="secondary"
-                    textColor="secondary"
+                    indicatorColor="primary"
+                    textColor="primary"
                     aria-label="icon label tabs example"
                 >
                     <Tab icon={<ExploreIcon/>} onClick={(e)=>changePage(0)} label="Map"/>

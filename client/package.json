@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+    "@material-ui/system": "^4.11.3",
     "@reach/router": "^1.3.4",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
@@ -12,8 +13,10 @@
     "leaflet": "^1.7.1",
     "reach": "^1.0.1",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.5.0",
     "react-dom": "^17.0.1",
     "react-leaflet": "^3.1.0",
+    "react-material-design": "^0.4.3",
     "react-scripts": "4.0.2",
     "web-vitals": "^1.1.0"
   },

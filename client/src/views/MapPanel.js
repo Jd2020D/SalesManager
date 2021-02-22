@@ -37,6 +37,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 //     }        
 const useStyles = makeStyles((theme) => ({
     root: {
+
         height: "100vh"
     },
     image: {
@@ -157,6 +158,7 @@ const MapPanel = (props) => {
         // we dont want to focus on the customer panel if it toggled by button
         if(currentCustomerPanel.current&&!change)
             currentCustomerPanel.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+
     }
     const sharedProps1= {
         toggleCustomer,
