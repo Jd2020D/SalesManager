@@ -33,21 +33,11 @@ const MyMap = (props) => {
     
     return (
         <>
-        <MapContainer  center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+        <MapContainer  center={[31.991480164920812,35.24500163655797]} zoom={13} scrollWheelZoom={false}>
         <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker     marker_index={0} icon={iconPerson} position={[51.505, -0.09]}>
-            <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-        </Marker>
-        <Marker marker_index={1}  icon={iconPerson}  position={[51.5005, -0.09]}>
-            <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable. 
-            </Popup>
-        </Marker>
         {marker}
 
     </MapContainer>

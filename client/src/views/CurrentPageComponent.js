@@ -7,7 +7,6 @@ export const CurrentPageComponent = ({
     user
 }) => {
     return currentPageNumber===0?<MapPanel user={user}/>
-    :currentPageNumber===1?<div><DealersTable/></div>
     :currentPageNumber===2?<div><CustomerTable/></div>
     :''
 }

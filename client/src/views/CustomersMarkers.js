@@ -27,6 +27,7 @@ const CustomersMarkers = ({
     }) => {
     const map = useMapEvents({
         click(e) { 
+            console.log(e.latlng)
             if (locationRequest)
                 locationResponse(e.latlng);
             else if(activeMarkerPin)

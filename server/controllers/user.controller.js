@@ -7,11 +7,11 @@ const {populateFridgesForManyCustomers} =require('../controllers/customer.contro
 
 const populateUserCustomers=async(user)=>{
 
-const {_id,password,phone,firstName,lastName,email,username,createdAt,updatedAt,Role}=user;
+const {_id,password,phone,firstName,lastName,email,location,username,createdAt,updatedAt,Role}=user;
 const customers= await Promise.all(populateFridgesForManyCustomers(user.customers));
 //   console.log(customers[0].fridges);
 
-return {_id,firstName,lastName,email,phone,username,Role,customers,password,createdAt,updatedAt};
+return {_id,firstName,lastName,email,phone,location,username,Role,customers,password,createdAt,updatedAt};
 
 }
 

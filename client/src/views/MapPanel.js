@@ -107,13 +107,17 @@ const customersArr=[
     },
 
 ]
-const MapPanel = (props) => {
+const MapPanel = ({
+    members:customers,
+    updateMember,
+    viewDealer,
+    deleteMember
+}) => {
     const classes = useStyles();
 
-    const [customers,setCustomers]=useState(customersArr);
     const [currentCustomer,setCurrentCustomer]=useState({_id:false});
     const [locationToAdd,setLocationToAdd]=useState({});
-    const [zoomScale,setZoomScale]=useState(14);
+    const [zoomScale,setZoomScale]=useState(9);
     const activeMarkerPin= useRef(false);
     const currentCustomerPanel=useRef();
     console.log("render main")
@@ -122,18 +126,20 @@ const MapPanel = (props) => {
             return scale<0||scale>18?prev:scale;
         })
     }
+    console.log('customers ',customers[0].location);
     const updateCurrentCustomerLocation =(newMapLocation)=>{
-
-        console.log(currentCustomer)
-        setCustomers(customers=>{
-            activeMarkerPin.current=false;
-            return customers.map((customer,index)=>{
-                return currentCustomer._id===customer._id?{...customer,location:{...newMapLocation}}:customer
-            })
+        activeMarkerPin.current=false;
+        updateMember({...currentCustomer,location:{...newMapLocation}})
+        // setCustomers(customers=>{
+        //     activeMarkerPin.current=false;
+        //     return customers.map((customer,index)=>{
+        //         const locKey=viewDealer?"region":"location";
+        //         return currentCustomer._id===customer._id?{...customer,locKey:{...newMapLocation}}:customer
+        //     })
     
-        }
+        // }
         
-        );
+        // );
     }
     function timeout(delay) {
         return new Promise( res => setTimeout(res, delay) );
@@ -142,10 +148,13 @@ const MapPanel = (props) => {
         setLocationToAdd({req:true})
 
     }
-    const deleteCustomer=(deletedCustomer)=>{
-        setCustomers(customers=>{
-            return customers.filter((customer,index)=>customer._id!==deletedCustomer._id);
-        })
+    const deleteCustomer=(customer)=>{
+        // setCustomers(customers=>{
+        //     return customers.filter((customer,index)=>customer._id!==deletedCustomer._id);
+        // })
+        deleteMember(customer);
+        
+
     }
     const toggleCustomer=(customer,change=false)=>{
         //change being true if the customer toggled by button

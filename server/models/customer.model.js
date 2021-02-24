@@ -5,8 +5,14 @@ const {Fridge}= require('./fridge.model');
 const CustomerSchema = new mongoose.Schema({
   ...Info,
   location: {
-    type: String,
-    required:[true,"location is required"]
+    lat:{
+      type:Number,
+      required:[true,"location is required"]
+    },
+    lng:{
+      type:Number,
+      required:[true,"location is required"]
+    },
   },
   fridges:[
     {

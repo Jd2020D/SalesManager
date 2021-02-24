@@ -3,6 +3,7 @@ import Books from './Books'
 import axios from 'axios';
 import { NavBar } from './NavBar';
 import { CurrentPageComponent } from  './CurrentPageComponent';
+import { AdminCurrentPageComponent } from  './AdminCurrentPageComponent';
 const Authorization = (props) => {
     const {user ,clearUser} =props;
     const [currentPage,setCurrentPage]=useState(0);
@@ -17,7 +18,8 @@ const Authorization = (props) => {
     return (    
         <>
         <NavBar changePage={(pageNumber)=>{setCurrentPage(pageNumber)}} logout={logout} isAdmin={user.Role.isAdmin}/>
-        <CurrentPageComponent user={user} currentPageNumber={currentPage}/>
+        {user.Role.isAdmin?<AdminCurrentPageComponent user={user} currentPageNumber={currentPage}/>
+        :<CurrentPageComponent user={user} currentPageNumber={currentPage}/>}
         </>
     )
 }

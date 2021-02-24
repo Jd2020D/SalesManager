@@ -42,8 +42,18 @@ const UserSchema = new mongoose.Schema({
         default:true
       }
     },
-    region:{
-      type: String,
+    location:{
+      name:{
+        type:String
+      },
+      lat:{
+        type:Number,
+        required:[true,"region is required"]
+      },
+      lng:{
+        type:Number,
+        required:[true,"region is required"]
+      },  
     },
     customers:[{
       type:String,

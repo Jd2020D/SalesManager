@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/salesManagerDB", {
+mongoose.connect("mongodb://localhost/salesManagerDBA", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
