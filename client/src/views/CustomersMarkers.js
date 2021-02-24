@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {Marker, Tooltip ,Popup,useMapEvents } from 'react-leaflet'
 
 const CustomPopUp=({currentId,iteratedId,message})=>{
@@ -24,35 +24,40 @@ const CustomersMarkers = ({
     toggleCustomer,
     locationRequest,
     locationResponse
-    }) => {
+    }) => {    
     const map = useMapEvents({
         click(e) { 
-            console.log(e.latlng)
-            if (locationRequest)
+           if (locationRequest.req){
                 locationResponse(e.latlng);
+            }
+
             else if(activeMarkerPin)
-                updateCurrentCustomerLocation(e.latlng);
+                {
+                    updateCurrentCustomerLocation(e.latlng);
+                }
         },  
     })
     try{
         map.setZoom(zoomScale);
-        map.flyTo(currentCustomer.location,zoomScale);
-    }catch(e){
+        if(!(currentCustomer.activeMarkerPin||locationRequest.req))
+            {
+                map.flyTo(currentCustomer.location,zoomScale);
+            }
+}catch(e){
     }
     return (
-        customers.map((customer,indx)=>{
+        [...customers,{location:locationRequest}].map((customer,indx)=>{
                 return customer.location&&customer.location.lat?<Marker
                 key={indx}
                 position={[customer.location.lat,customer.location.lng]}
                 eventHandlers={{
                     click: (e) => {
-                        console.log(customer)
                         toggleCustomer(customer);
                     },
                   }}
                 >
-                <CustomPopUp message={customer.firstName+" "+customer.lastName} currentId={currentCustomer._id} iteratedId={customer._id}/>
-                </Marker>:''          
+{                customer.firstName&&<CustomPopUp message={customer.firstName+" "+customer.lastName} currentId={currentCustomer._id} iteratedId={customer._id}/>
+}                </Marker>:''          
                 
             
             })

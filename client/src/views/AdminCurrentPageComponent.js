@@ -17,14 +17,29 @@ export const AdminCurrentPageComponent = ({
             .catch(err=>console.log(err))
     }, [])
 
-    const updateDealer=(updateDealer,email=false,username=false)=>{
+    const updateDealer=async(updateDealer,email=false,username=false)=>{
         const check=!email?delete updateDealer['email']:username?delete updateDealer['username']:false
-        axios.put("http://localhost:8000/api/users/update/"+updateDealer._id,updateDealer,{withCredentials:true})
+        const errorArr = [];
+        let success=false
+        await axios.put("http://localhost:8000/api/users/update/"+updateDealer._id,updateDealer,{withCredentials:true})
         .then(response=>{
-            console.log(response.data)
+                success=true;
                 setDealers(dealers.map((dealer)=>dealer._id===updateDealer._id?response.data:dealer));
         })
-        .catch(err=>console.log(err))
+        .catch(err=>{ 
+            console.log(updateDealer);
+            console.log(err);
+        try{
+            console.log(err.response.data.errors)
+            const errorResponse = err.response.data.errors; // Get the errors from err.response.data
+            for (const key of Object.keys(errorResponse)) { // Loop through all errors and get the messages
+                errorArr.push(errorResponse[key].message)
+            }    
+        }catch(e){
+            console.log(e);
+        }
+    })
+    return {errors:errorArr,success:success};
     }
 
     const deleteDealer=(dealerToDelete)=>{
@@ -36,8 +51,32 @@ export const AdminCurrentPageComponent = ({
         .catch(err=>console.log(err))
 
     }
+    const createDealer=async(newDealer)=>{
+        console.log(newDealer)
+            const errorArr = [];
+            let success=false
+            await axios.post("http://localhost:8000/api/users/create/",newDealer,{withCredentials:true})
+                .then((response) => {setDealers([...dealers,response.data]);success=true})
+                .catch(err =>{
+                    try{
+                        console.log(err.response.data.errors)
+                        const errorResponse = err.response.data.errors; // Get the errors from err.response.data
+                        for (const key of Object.keys(errorResponse)) { // Loop through all errors and get the messages
+                            errorArr.push(errorResponse[key].message)
+                        }    
+                    }catch(e){
+                        console.log(e);
+                    }
+                })
+            return {errors:errorArr,success:success};
+        
+    
+        // setFavBooks([...favBooks,book]);
+
+
+    }
     dealers.length>0&&console.log('dealers',dealers[0].location)
-    return currentPageNumber===0&&dealers.length>0?<MapPanel  viewDealer={true} deleteMember={deleteDealer} updateMember={updateDealer} members={dealers} user={user}/>
+    return currentPageNumber===0&&dealers.length>0?<MapPanel updateDealer={updateDealer}  viewDealer={true} createMember={createDealer} deleteMember={deleteDealer} updateMember={updateDealer} members={dealers} user={user}/>
     :currentPageNumber===1?<div><DealersTable/></div>
     :''
 }

@@ -11,9 +11,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import ExploreIcon from '@material-ui/icons/Explore';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import AddIcon from '@material-ui/icons/Add';
 import Slider from '@material-ui/core/Slider';
 import {withStyles} from "@material-ui/core";
+import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle';
 const customersArr=[
     {
         _id:1,firstName:"jehad",lastName:"jaber",location:{lat:0,lng:0}
@@ -88,11 +90,11 @@ const DetailsSidePanel = ({
     activeMarkerPin,
     toggleCustomer,
     currentCustomerPanel,
-    changeComponent
+    changeComponent,
+    viewDealer,
+    editMember
     }) => {
     const classes= useStyles();
-    const [val,setVal]=useState(0)
-
     return (
         <>
             <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" value={zoomScale}  max="18" onChange={(e,val)=>zoomHandler(val)} />
@@ -104,19 +106,12 @@ const DetailsSidePanel = ({
             startIcon={<AddIcon />}
             onClick={e=>changeComponent(1)}
         >ADD</Button>
-        <div className={classes.scroll}>
+        <div className={classes.scroll} >
 
         {
-        // markers.map((marker,index)=>{
-        //     return <div  key={index}>
-        //             <p> {marker.lat} {marker.lng} </p>
-        //             <button onClick={e=>setMarkers(markers.filter((item,index)=>item.lat!==marker.lat&&item.lng!==marker.lng))}>Delete</button>
-        //             <button></button>
-        //     </div>
-        // })
 
             customers.map((customer,index)=>{
-                return <Card className={classes.root} ref={currentCustomer._id===customer._id?currentCustomerPanel:null}  key={index}>
+                return <Card className={classes.root} onClick={e=>{if(e.target.className==='MuiCardContent-root')toggleCustomer(customer);}} ref={currentCustomer._id===customer._id?currentCustomerPanel:null}  key={index}>
                             <CardActionArea variant="flush"   style={ currentCustomer._id===customer._id?{background:'#fbc15c'}:{background:'#2179c3'}} > {/*view*/}
                             <CardContent  style={ currentCustomer._id===customer._id
                                 ? {background: '#fbc15c'}
@@ -139,11 +134,22 @@ const DetailsSidePanel = ({
                                         color="default"
                                         className={classes.button}
                                         startIcon={<EditIcon />}
+                                        onClick={e=>{editMember(customer); changeComponent(2);}}
                                     >
-                                        Edit Customer
+                                        Edit 
                                     </Button>
-                                <Button
+                                {viewDealer&&<Button
                                     onClick={e=>{toggleCustomer(customer);}}
+                                    variant="contained"
+                                    color="default"
+                                    className={classes.button}
+                                    startIcon={<PersonPinCircleIcon />}
+                                >
+                                    View Customers
+                                </Button>}
+
+                                <Button
+                                    onClick={e=>{toggleCustomer(customer,false,true);}}
                                     variant="contained"
                                     color="default"
                                     className={classes.button}
@@ -152,7 +158,7 @@ const DetailsSidePanel = ({
                                     View Location
                                 </Button>
                                 {currentCustomer._id===customer._id&&activeMarkerPin
-                                    ?<Button  onClick={e=>toggleCustomer({_id:false})}
+                                    ?<Button  onClick={e=>toggleCustomer({_id:false,activeMarkerPin:false})}
                                               variant="contained"
                                               color="default"
                                               className={classes.button}
@@ -162,8 +168,8 @@ const DetailsSidePanel = ({
                                               variant="contained"
                                               color="default"
                                               className={classes.button}
-                                              startIcon={<ExploreIcon />}
-                                    >Update Location</Button>}
+                                              startIcon={viewDealer?<ZoomOutMapIcon/>:<ExploreIcon />}
+                                    >Update {viewDealer?"Region":"Location"} </Button>}
 
                             </CardContent>
                             {/* <button onClick={e=>setCustomers(customers.filter((customers,index)=>item.lat!==marker.lat&&item.lng!==marker.lng))}>Delete location</button> */}

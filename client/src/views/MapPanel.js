@@ -111,11 +111,13 @@ const MapPanel = ({
     members:customers,
     updateMember,
     viewDealer,
-    deleteMember
+    deleteMember,
+    createMember,
+    updateDealer
 }) => {
     const classes = useStyles();
 
-    const [currentCustomer,setCurrentCustomer]=useState({_id:false});
+    const [currentCustomer,setCurrentCustomer]=useState({_id:false,activeMarkerPin:false});
     const [locationToAdd,setLocationToAdd]=useState({});
     const [zoomScale,setZoomScale]=useState(9);
     const activeMarkerPin= useRef(false);
@@ -128,7 +130,7 @@ const MapPanel = ({
     }
     console.log('customers ',customers[0].location);
     const updateCurrentCustomerLocation =(newMapLocation)=>{
-        activeMarkerPin.current=false;
+        setCurrentCustomer({...currentCustomer,location:{...newMapLocation},activeMarkerPin:false});
         updateMember({...currentCustomer,location:{...newMapLocation}})
         // setCustomers(customers=>{
         //     activeMarkerPin.current=false;
@@ -144,8 +146,9 @@ const MapPanel = ({
     function timeout(delay) {
         return new Promise( res => setTimeout(res, delay) );
     }
-    const  requestLocation=async()=>{
-        setLocationToAdd({req:true})
+    const  requestLocation=async(clear=false)=>{
+        clear?setLocationToAdd({})
+        :setLocationToAdd({req:true})
 
     }
     const deleteCustomer=(customer)=>{
@@ -156,13 +159,13 @@ const MapPanel = ({
         
 
     }
-    const toggleCustomer=(customer,change=false)=>{
+    const toggleCustomer=(customer,change=false,view=false)=>{
         //change being true if the customer toggled by button
         setCurrentCustomer(prevCustomer=>{
-            if(!change&&prevCustomer._id===customer._id)
-                return {_id:false};
-            activeMarkerPin.current=change;
-            return {_id:customer._id,location:customer.location};
+            if(!view&&!change&&prevCustomer._id===customer._id)
+                return {_id:false,activeMarkerPin:false};
+            console.log(view)
+            return {_id:customer._id,location:customer.location,activeMarkerPin:change};
         })
         // we dont want to focus on the customer panel if it toggled by button
         if(currentCustomerPanel.current&&!change)
@@ -173,7 +176,8 @@ const MapPanel = ({
         toggleCustomer,
         zoomScale,
         currentCustomer,
-        customers
+        customers,
+        viewDealer
     }
     // console.log(currentComponent);
     return (
@@ -181,9 +185,9 @@ const MapPanel = ({
             <Grid item xs={8}>
                 <MyMap marker={<CustomersMarkers
                     {...sharedProps1}
-                    activeMarkerPin={activeMarkerPin.current}
+                    activeMarkerPin={currentCustomer.activeMarkerPin}
                     updateCurrentCustomerLocation={updateCurrentCustomerLocation}
-                    locationRequest={locationToAdd.req}
+                    locationRequest={locationToAdd}
                     locationResponse={(location)=>setLocationToAdd(location)}
                 />} />
             </Grid>
@@ -193,12 +197,13 @@ const MapPanel = ({
                 <SidePanels
                     sharedProps1={sharedProps1}
                     zoomHandler={zoomHandler}
-                    activeMarkerPin={activeMarkerPin.current}
+                    activeMarkerPin={currentCustomer.activeMarkerPin}
                     currentCustomerPanel={currentCustomerPanel}
                     deleteCustomer={deleteCustomer}
                     requestLocation={requestLocation}
                     locationResponse={locationToAdd}
-
+                    createMember={createMember}
+                    updateDealer={updateDealer}
                 />
             </Grid>
 

@@ -46,31 +46,43 @@ const DealerForm = ({
                           onSubmitProp,
                           requestLocation,
                           locationResponse,
-                          title
+                          title,
+                          dealer,
+                          isEdit
                       }) => {
     const classes = useStyles();
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [region, setRegion] = useState({});
+    const [firstName, setFirstName] = useState(dealer.firstName);
+    const [lastName, setLastName] = useState(dealer.lastName);
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [email, setEmail] = useState(dealer.email);
+    const [username, setUsername] = useState(dealer.username);
+    const [phone, setPhone] = useState(dealer.phone);
+    const [location, setLocation] = useState(dealer.location);
+    const [region, setRegion] = useState(dealer.region);
     const [errors,setErrors]=useState([]);
     const onSubmit = async e => {
         e.preventDefault()
-        const res=await onSubmitProp({firstName,lastName,email,phone,region});
-        setErrors(res.errors);
-        // if(res.errors.length<=0)
-        //     res.source.cancel();
+        let submitAtrr={password,confirmPassword,firstName,lastName,email,username:username,phone,location: {
+            lat:location.lat,lng:location.lng,name:region
+        }};
+        if(isEdit){
+            delete submitAtrr['password'];
+            delete submitAtrr['confirmPassword'];
+            delete submitAtrr['username'];
+            delete submitAtrr.email;
+            submitAtrr._id=dealer._id
 
+        }
+        const res=await onSubmitProp(submitAtrr);
+        setErrors(res.errors);
+            if(res.success)
+            changeComponent(0);
     }
     useEffect(() => {
-        return () => {
-        }
-    }, [])
-    useEffect(() => {
         if(locationResponse.lat)
-            setRegion(locationResponse);
+            setLocation(locationResponse);
     }, [locationResponse])
     return(
 
@@ -111,7 +123,7 @@ const DealerForm = ({
                     autoFocus
                 />
 
-                <TextField
+<TextField
                     onChange={(e)=>setEmail(e.target.value)} value ={email}
 
                     variant="outlined"
@@ -124,18 +136,29 @@ const DealerForm = ({
                     autoComplete="email"
                     autoFocus
                 />
+                <TextField
+                    onChange={(e)=>setUsername(e.target.value)} value ={username}
+
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="username"
+                    label="Username"
+                    name="username"
+                    autoComplete="username"
+                    autoFocus
+                />
 
                 <TextField
                     onChange={(e)=>setPhone(e.target.value)} value ={phone}
 
                     variant="outlined"
                     margin="normal"
-                    required
                     fullWidth
                     id="phoneNumber"
                     label="Phone Number"
                     name="phoneNumber"
-                    autoComplete="phoneNumber"
                     autoFocus
                 />
 
@@ -144,20 +167,57 @@ const DealerForm = ({
                     variant="outlined"
                     className={classes.formControl}
                 >
-                    <FormLabel>Region:</FormLabel>
+                    <FormLabel>{"lat: "+location.lat + "    lng: "+location.lng } </FormLabel>
                     <TextField
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        label="Region"
+                        id="region"
+                        name="region"
+                        onChange={e=>setRegion(e.target.value)}
+                        autoComplete="region"
+                        autoFocus
+                        value={region }
+                    />
+            {!isEdit&&<Button fullWidth onClick={e=>requestLocation()}  variant="contained" color="secondary">
+                Request Location
+            </Button>}
+
+                </FormControl>
+                {!isEdit?
+                <>
+                    <TextField
+                        onChange={(e)=>setPassword(e.target.value)} value ={password}
+
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
-                        id="region"
-                        name="region"
-                        autoComplete="phoneNumber"
+                        id="password"
+                        label="Password"
+                        name="password"
+                        autoComplete="password"
                         autoFocus
-                        inputProps={{ readOnly: true }}
-                        value={"lat: "+region.lat + "    lng: "+region.lng }
                     />
-                </FormControl>
+                    <TextField
+                        onChange={(e)=>setConfirmPassword(e.target.value)} value ={confirmPassword}
+
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="ConfirmPassword"
+                        label="Confirm Password"
+                        name="ConfirmPassword"
+                        autoComplete="ConfirmPassword"
+                        autoFocus
+                    />
+                </>:''}
+
+
+
+
 
 
 
@@ -167,9 +227,6 @@ const DealerForm = ({
 
 
             </form>
-            <Button fullWidth onClick={e=>requestLocation()}  variant="contained" color="secondary">
-                Request Location
-            </Button>
 
             {errors.map((err, index) => <p key={index} style={{color:"red"}}>{err}</p>)}
 
