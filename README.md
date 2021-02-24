@@ -9,3 +9,7 @@ Every dealer have his own account to manage his customers’ informations.
 -	Noor Al-Deen Zakarneh
 -	Samer Imraish
 -	Mohammad Donbok
+
+# Screenshots
+  ## Adding Dealer
+  ![](img/add%20Dealer.png)
