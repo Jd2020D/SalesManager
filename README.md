@@ -9,4 +9,3 @@ Every dealer have his own account to manage his customers’ informations.
 -	Noor Al-Deen Zakarneh
 -	Samer Imraish
 -	Mohammad Donbok
-
