@@ -92,7 +92,8 @@ const DetailsSidePanel = ({
     currentCustomerPanel,
     changeComponent,
     viewDealer,
-    editMember
+    editMember,
+    viewMember
     }) => {
     const classes= useStyles();
     return (
@@ -139,7 +140,7 @@ const DetailsSidePanel = ({
                                         Edit 
                                     </Button>
                                 {viewDealer&&<Button
-                                    onClick={e=>{toggleCustomer(customer);}}
+                                    onClick={e=>{viewMember(customer);}}
                                     variant="contained"
                                     color="default"
                                     className={classes.button}

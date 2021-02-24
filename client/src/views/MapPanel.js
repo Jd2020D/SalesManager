@@ -113,7 +113,7 @@ const MapPanel = ({
     viewDealer,
     deleteMember,
     createMember,
-    updateDealer
+    viewMember
 }) => {
     const classes = useStyles();
 
@@ -203,7 +203,8 @@ const MapPanel = ({
                     requestLocation={requestLocation}
                     locationResponse={locationToAdd}
                     createMember={createMember}
-                    updateDealer={updateDealer}
+                    updateMember={updateMember}
+                    viewMember={viewMember}
                 />
             </Grid>
 
