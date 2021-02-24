@@ -14,6 +14,6 @@ Every dealer have his own account to manage his customers’ informations.
   ## Adding Dealer
   ![](client/src/img/add%20Dealer.png)
   
-  ## Adding Dealer
+  ## Editing Dealer
    ![](client/src/img/edit%20dealer.PNG)
   
