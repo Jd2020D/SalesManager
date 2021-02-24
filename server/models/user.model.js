@@ -53,7 +53,7 @@ const UserSchema = new mongoose.Schema({
       lng:{
         type:Number,
         required:[true,"region is required"]
-      },  
+      },
     },
     customers:[{
       type:String,
