@@ -5,8 +5,8 @@ In addition the admin can add, remove and edit dealer’s info.
 Every dealer have his own account to manage his customers’ informations.
 
 # Our Group:
-•	Jehad Al-Terawi
-•	Noor Al-Deen Zakarneh
-•	Samer Imraish
-•	Mohammad Donbok
+-	Jehad Al-Terawi
+-	Noor Al-Deen Zakarneh
+-	Samer Imraish
+-	Mohammad Donbok
 
