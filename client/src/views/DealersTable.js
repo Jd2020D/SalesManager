@@ -16,6 +16,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Button from '@material-ui/core/Button';
 import CustomerTable from "./CustomerTable";
+import AddNewFriedge from "./AddNewFriedge";
 
 const useRowStyles = makeStyles({
     root: {
@@ -73,10 +74,10 @@ function Row(props) {
                 <TableCell component="th" scope="row">
                     {row.name}
                 </TableCell>
-                <TableCell align="right"><a href="#">{row.calories}</a></TableCell>
-                <TableCell align="right">Count</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
+                <TableCell align="center"><a href="#">{row.calories}</a></TableCell>
+                <TableCell align="center">Count</TableCell>
+                <TableCell align="center">{row.fat}</TableCell>
+                <TableCell align="center">{row.carbs}</TableCell>
                 <TableCell align="center">
                     <div className={classes.root }>
                         <Button variant="contained" className={classesNames.but}>Edit</Button>
@@ -160,10 +161,10 @@ const classes =useStyles();
                     <TableRow>
                         <TableCell />
                         <TableCell>Name</TableCell>
-                        <TableCell align="right">Governorate</TableCell>
-                        <TableCell align="right">Phone</TableCell>
-                        <TableCell align="right">Customer Count</TableCell>
-                        <TableCell align="right">Email</TableCell>
+                        <TableCell align="center">Governorate</TableCell>
+                        <TableCell align="center">Phone</TableCell>
+                        <TableCell align="center">Customer Count</TableCell>
+                        <TableCell align="center">Email</TableCell>
                         <TableCell align="center" >Actions</TableCell>
                     </TableRow>
                 </TableHead>

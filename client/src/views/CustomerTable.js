@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -15,6 +15,9 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Button from '@material-ui/core/Button';
+import AddNewFriedge from "./AddNewFriedge";
+import EditFridgeRow from "./EditFridgeRow";
+
 
 const useRowStyles = makeStyles({
     root: {
@@ -50,6 +53,20 @@ function createData(name, calories, fat, carbs) {
     };
 }
 
+
+
+
+// function renderActionSection(){
+//     if (isEditing===true){
+//         return(
+//             <span className="icons spanItem">
+//           <Button className="btnCancel" onClick={(e)=>onCancelClick} >Cancel</Button>
+//           <Button className="btnSave" >Save</Button>
+//       </span>
+//         );
+//     }
+// }
+
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
@@ -66,9 +83,9 @@ function Row(props) {
                 <TableCell component="th" scope="row">
                     {row.name}
                 </TableCell>
-                <TableCell align="right"><a href="#">{row.calories}</a></TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
+                <TableCell align="center"><a href="#">{row.calories}</a></TableCell>
+                <TableCell align="center">{row.fat}</TableCell>
+                <TableCell align="center">{row.carbs}</TableCell>
                 <TableCell align="center">
                     <div className={classes.root }>
                         <Button variant="contained" className={classesNames.but}>Edit</Button>
@@ -84,23 +101,32 @@ function Row(props) {
                             <Typography variant="h6" gutterBottom component="div">
                                 Fridges
                             </Typography>
+                             <AddNewFriedge/>
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Type</TableCell>
                                         <TableCell>Serial Numbers</TableCell>
-                                        <TableCell align="right">Quantity</TableCell>
+                                        <TableCell align="center">Quantity</TableCell>
+                                        <TableCell align="center">
+                                           Actions
+                                        </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {row.history.map((historyRow,index) => (
-                                        <TableRow key={index}>
-                                            <TableCell component="th" scope="row">
-                                                {historyRow.date}
-                                            </TableCell>
-                                            <TableCell>{historyRow.customerId}</TableCell>
-                                            <TableCell align="right">{historyRow.amount}</TableCell>
-                                        </TableRow>
+
+                                            <EditFridgeRow key={index}
+                                                            fridgeId={index}
+                                                           type={historyRow.date}
+                                                           quantitiy={historyRow.amount}
+                                                           serialNumber={historyRow.date}
+                                                           classes={classes}
+                                                           classesNames={classesNames}
+                                                           historyRow={historyRow}
+                                            />
+
+
                                     ))}
                                 </TableBody>
                             </Table>
@@ -147,9 +173,9 @@ export default function CustomerTable() {
                     <TableRow>
                         <TableCell />
                         <TableCell>Name</TableCell>
-                        <TableCell align="right">Location</TableCell>
-                        <TableCell align="right">Phone</TableCell>
-                        <TableCell align="right">Email</TableCell>
+                        <TableCell align="center">Location</TableCell>
+                        <TableCell align="center">Phone</TableCell>
+                        <TableCell align="center">Email</TableCell>
                         <TableCell align="center" >Actions</TableCell>
                     </TableRow>
                 </TableHead>
