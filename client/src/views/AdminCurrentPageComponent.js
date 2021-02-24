@@ -1,14 +1,18 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useRef} from 'react'
 import MapPanel from './MapPanel';
 import CustomerTable from "./CustomerTable";
 import DealersTable from "./DealersTable";
 import axios from 'axios';
+import { CurrentPageComponent } from './CurrentPageComponent';
+import { set } from 'lodash';
 
 export const AdminCurrentPageComponent = ({
     currentPageNumber,
-    user
+    user,
+    changePage
 }) => {
-    const [dealers, setDealers] = useState([])
+    const [dealers, setDealers] = useState([]);
+    const currentDealer = useRef();
     useEffect(() => {
         axios.get("http://localhost:8000/api/users/dealers/",{withCredentials:true})
             .then(response=>{
@@ -76,8 +80,12 @@ export const AdminCurrentPageComponent = ({
 
     }
     dealers.length>0&&console.log('dealers',dealers[0].location)
-    return currentPageNumber===0&&dealers.length>0?<MapPanel updateDealer={updateDealer}  viewDealer={true} createMember={createDealer} deleteMember={deleteDealer} updateMember={updateDealer} members={dealers} user={user}/>
-    :currentPageNumber===1?<div><DealersTable/></div>
+    return currentPageNumber===0&&dealers.length>0?<MapPanel viewMember={(dealer)=>{currentDealer.current=dealer; changePage(5);}} updateMember={updateDealer}  viewDealer={true} createMember={createDealer} deleteMember={deleteDealer} updateMember={updateDealer} members={dealers} user={user}/>
+    :currentPageNumber===1?<div><DealersTable /></div>
+    :currentPageNumber===5?
+    <div><button onClick={e=>changePage(0)}>Back</button>
+        <CurrentPageComponent updateDealers={(data)=>setDealers(dealers.map((dealer)=>dealer._id===data._id?data:dealer))}
+         isAdmin={user.Role.isAdmin} currentPageNumber={0} user={currentDealer.current}  /></div>
     :''
 }
 

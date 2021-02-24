@@ -13,7 +13,8 @@ const SidePanels = ({
     requestLocation,
     locationResponse,
     createMember,
-    updateDealer
+    updateMember,
+    viewMember
 }) => {
     const [currentPanel,setCurrentPanel]=useState(0);
     const memberEdit=useRef();
@@ -26,13 +27,14 @@ const SidePanels = ({
             currentCustomerPanel={currentCustomerPanel} 
             deleteCustomer={deleteCustomer}
             editMember={(member)=>memberEdit.current=member}
+            viewMember={viewMember}
             />
             :currentPanel===1&&sharedProps1.viewDealer?
             <CreateDealer  createDealer={createMember} locationResponse={locationResponse} requestLocation={requestLocation} changeComponent={(num)=>setCurrentPanel(num)}/>
             :currentPanel===1?
             <CreateCustomer createCustomer={createMember} locationResponse={locationResponse} requestLocation={requestLocation} changeComponent={(num)=>setCurrentPanel(num)}/>
             :currentPanel===2&&sharedProps1.viewDealer?
-            <EditDealer updateDealer={updateDealer} locationResponse={locationResponse} requestLocation={requestLocation} dealer={memberEdit.current} changeComponent={(num)=>{setCurrentPanel(num);console.log(num)}} />
+            <EditDealer updateDealer={updateMember} locationResponse={locationResponse} requestLocation={requestLocation} dealer={memberEdit.current} changeComponent={(num)=>{setCurrentPanel(num);console.log(num)}} />
             :''
     
 }
