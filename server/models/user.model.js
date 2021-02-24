@@ -15,7 +15,6 @@ const UserSchema = new mongoose.Schema({
         },
         { 
             validator:  async function (val){
-              console.log("i am here line 18 user model" )
                 return await User.findOne({username:val})
                 .then(res=>{
                     if(res===null)
