@@ -14,6 +14,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import AddIcon from '@material-ui/icons/Add';
 import Slider from '@material-ui/core/Slider';
 import {withStyles} from "@material-ui/core";
+import PersonPinIcon from "@material-ui/icons/PersonPin";
 const customersArr=[
     {
         _id:1,firstName:"jehad",lastName:"jaber",location:{lat:0,lng:0}
@@ -140,8 +141,16 @@ const DetailsSidePanel = ({
                                         className={classes.button}
                                         startIcon={<EditIcon />}
                                     >
-                                        Edit Customer
+                                        Edit
                                     </Button>
+                                <Button
+                                    variant="contained"
+                                    color="default"
+                                    className={classes.button}
+                                    startIcon={<PersonPinIcon />}
+                                >
+                                    View Customers
+                                </Button>
                                 <Button
                                     onClick={e=>{toggleCustomer(customer);}}
                                     variant="contained"
