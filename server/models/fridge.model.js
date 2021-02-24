@@ -26,6 +26,7 @@ const FridgeSchema = new mongoose.Schema({
   }, {timestamps: true});
 const autoPouplateType=function(next){
   this.populate('type');
+  
   next();
 
 }

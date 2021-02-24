@@ -1,24 +1,31 @@
 const { User } = require('../models/user.model');
-const jwt = require("jsonwebtoken");
-const bcrypt = require('bcrypt');
 const { request, response } = require('express');
-
-require('dotenv').config();
-
-
+const {populateUserCustomers} = require('../controllers/user.controller')
+const {populateManyUsersCustomers} = require('../controllers/user.controller')
 
 
-module.exports.getAllUsers = (_req, res) => {
-    User.find()
-        .then(users => res.json(users))
-        .catch(err => res.json(err));
+
+
+
+module.exports.getAllUsers = (req, res) => {
+    const query =req.params.type==="dealers"?{Role:{isAdmin:false,isDealer:true}}:req.params.type==="admins"?{Role:{isAdmin:true,isDealer:true}}:{}
+    User.find(query)
+        .then(async users => {
+            res.json(await populateManyUsersCustomers(users))
+        })
+        .catch(err => console.log(err));
 }
 
 
 module.exports.createUser = (request, response) => {
     User.create(request.body)
-        .then(user => response.json(user))
-        .catch(err => response.status(400).json(err));
+        .then(async user => {
+            const shallowPopulatedUserCustomers=await User.findOne({_id:user._id});
+            response.json(await populateUserCustomers(shallowPopulatedUserCustomers))
+        })
+        .catch(err => {
+            response.status(400).json(err);});
+        // response.status(400).json(err)
 }
 
 
@@ -30,9 +37,8 @@ module.exports.deleteUser = (req, res) => {
 }
 
 module.exports.updateUser = (req, res) => {
-
-
-    User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true})
-        .then(updated => res.json(updated))
+    User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true}).populate('customers')
+        .then(async updated => res.json(await populateUserCustomers(updated)))
         .catch(err => res.status(400).json(err));
+
 }

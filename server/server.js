@@ -13,6 +13,7 @@ require('./routes/user.routes')(app);
 require('./routes/customer.routes')(app);
 require('./routes/type.routes')(app);
 require('./routes/fridge.routes')(app);
+require('./routes/dealer.routes')(app);
 app.listen(8000, () => {
     console.log("Listening at Port 8000")
 })

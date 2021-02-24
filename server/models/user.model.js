@@ -3,10 +3,9 @@ const bcrypt = require('bcrypt');
 const {Info}=require('./info.model')
 const {Customer}= require('./customer.model');
 
-
 const UserSchema = new mongoose.Schema({
     ...Info,
-    username:{
+    username :{
       type: String,
       required: [true, "username is required"],
       validate: [
@@ -16,7 +15,8 @@ const UserSchema = new mongoose.Schema({
         },
         { 
             validator:  async function (val){
-                return await this.constructor.findOne({username:val})
+              console.log("i am here line 18 user model" )
+                return await User.findOne({username:val})
                 .then(res=>{
                     if(res===null)
                         return true;
@@ -76,4 +76,19 @@ const UserSchema = new mongoose.Schema({
         next();
       });
   });
-  module.exports.User = mongoose.model("User",UserSchema);
+
+  UserSchema.pre('findOne',function(next){
+    this.populate('customers');
+    next();
+  });
+  UserSchema.pre('find',function(next){
+    this.populate('customers');
+    next();
+  });
+  // UserSchema.pre('update',function(next){
+  //   console.log("pre valid");
+  //   next();
+  // })
+
+  const User =mongoose.model("User",UserSchema);
+  module.exports.User =  User;

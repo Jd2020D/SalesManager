@@ -2,17 +2,36 @@ const { User } = require('../models/user.model');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const { request, response } = require('express');
-
 require('dotenv').config();
+const {populateFridgesForManyCustomers} =require('../controllers/customer.controller');
 
-module.exports.getSingleUserById=(request, response) => {
-    response.json(response.locals.user);
+const populateUserCustomers=async(user)=>{
+
+const {_id,password,phone,firstName,lastName,email,username,createdAt,updatedAt,Role}=user;
+const customers= await Promise.all(populateFridgesForManyCustomers(user.customers));
+//   console.log(customers[0].fridges);
+
+return {_id,firstName,lastName,email,phone,username,Role,customers,password,createdAt,updatedAt};
+
+}
+
+const populateManyUsersCustomers= async(users)=>{
+    return await Promise.all(users.map(async(user)=>{
+            return await populateUserCustomers(user);
+    }));
+}
+module.exports.populateManyUsersCustomers=populateManyUsersCustomers;
+module.exports.populateUserCustomers=populateUserCustomers;
+
+module.exports.getSingleUserById= (request, response) => {
+        populateUserCustomers(response.locals.user)
+    .then(popultedUser=>response.json(popultedUser))
+    .catch(err=>response.status(404).json(err));
+
 }
 
 
 module.exports.editUserById = (req, res) => {
-
-
     User.findByIdAndUpdate(res.locals.user.id, req.body, {new: true, runValidators: true})
         .then(updated => res.json(updated))
         .catch(err => res.status(400).json(err));

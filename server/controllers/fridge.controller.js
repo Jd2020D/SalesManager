@@ -1,7 +1,7 @@
 const { Fridge } = require('../models/fridge.model');
 
 const populateType = async (fridgId)=>{
-    return await Fridge.findById(fridgId).populate('type');
+    return await Fridge.findById(fridgId);
 }
 module.exports.populateType=populateType;
 module.exports.createFridge = (request, response) => {
@@ -9,12 +9,12 @@ module.exports.createFridge = (request, response) => {
         .then(async fridge =>{
             response.json(await populateType(fridge._id));
         })
-        .catch(err => response.json(typeof(err)));
+        .catch(err => response.json((err)));
 }
 
 
 
-module.exports.getAllFridges = (_req, res) => {
+module.exports.getAllFridges = (req, res) => {
     Fridge.find()
         .then(fridges => res.json(fridges))
         .catch(err => res.json(err));
