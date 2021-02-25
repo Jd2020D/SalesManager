@@ -5,7 +5,9 @@ import DealersTable from "./DealersTable";
 import axios from 'axios';
 import { CurrentPageComponent } from './CurrentPageComponent';
 import { set } from 'lodash';
-
+import Button from "@material-ui/core/Button";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 export const AdminCurrentPageComponent = ({
     currentPageNumber,
     user,
@@ -83,7 +85,12 @@ export const AdminCurrentPageComponent = ({
     return currentPageNumber===0&&dealers.length>0?<MapPanel viewMember={(dealer)=>{currentDealer.current=dealer; changePage(5);}} updateMember={updateDealer}  viewDealer={true} createMember={createDealer} deleteMember={deleteDealer} updateMember={updateDealer} members={dealers} user={user}/>
     :currentPageNumber===1?<div><DealersTable /></div>
     :currentPageNumber===5?
-    <div><button onClick={e=>changePage(0)}>Back</button>
+    <div><Button onClick={e=>changePage(0)}
+                 variant="contained"
+                 style={{marginTop:'5px'}}
+                 color="default"
+                 startIcon={<ArrowBackIcon />}
+    >Back</Button>
         <CurrentPageComponent updateDealers={(data)=>setDealers(dealers.map((dealer)=>dealer._id===data._id?data:dealer))}
          isAdmin={user.Role.isAdmin} currentPageNumber={0} user={currentDealer.current}  /></div>
     :''
