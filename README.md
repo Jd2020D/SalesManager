@@ -18,6 +18,6 @@ Every dealer have his own account to manage his customers’ informations.
    ![](client/src/img/edit%20dealer.PNG)
    
    ## View Dealer Own Customers
-       ![](client/src/img/dealers%20Customer.PNG)
+   ![](client/src/img/dealers%20Customer.PNG)
 
   
