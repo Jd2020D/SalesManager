@@ -10,11 +10,11 @@ import ExploreIcon from '@material-ui/icons/Explore';
     toolbar: {
         borderBottom: `1px solid ${theme.palette.divider}`,
    },
-     logo:{
-        margin:'auto',
-         height:'75px'
-     },
-     root: {
+   logo:{
+    margin:'auto',
+     height:'75px'
+ },
+root: {
          flexGrow: 1,
          maxWidth: '100%',
 
@@ -27,10 +27,12 @@ import ExploreIcon from '@material-ui/icons/Explore';
 
 
 export const NavBar = ({
-
+    name,
+    region,
     isAdmin,
     changePage,
     logout,
+    currentPageNumber
 
 }) => {
     const classes = useStyles();
@@ -42,12 +44,15 @@ export const NavBar = ({
         <>
             <Toolbar className={classes.toolbar}>
                 {isAdmin&&<h1>Admin</h1>}
+                {!isAdmin&&<h1>{name}</h1>}
                 <img onClick={(e)=>changePage(0)} alt="logo" className={classes.logo} src={logo}/>
+                {!isAdmin&&<h2>{region}</h2>}
+
             </Toolbar>
             <Paper square className={classes.root}>
                 <Tabs
-                    value={value}
-                    onChange={handleChange}
+                    value={currentPageNumber}
+                    onChange={(e,val)=>changePage(val)}
                     variant="fullWidth"
                     indicatorColor="primary"
                     textColor="primary"

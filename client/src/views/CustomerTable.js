@@ -81,11 +81,12 @@ function Row(props) {
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {row.name}
+                {row.firstName} {row.lastName}
                 </TableCell>
-                <TableCell align="center"><a href="#">{row.calories}</a></TableCell>
-                <TableCell align="center">{row.fat}</TableCell>
-                <TableCell align="center">{row.carbs}</TableCell>
+                <TableCell/>
+                <TableCell align="center"><a onClick={e=>e.preventDefault()}>{row.phone}</a></TableCell>
+                <TableCell align="center">{row.email}</TableCell>
+                <TableCell align="center">{row.fridges.length}</TableCell>
                 <TableCell align="center">
                     <div className={classes.root }>
                         <Button variant="contained" className={classesNames.but}>Edit</Button>
@@ -101,7 +102,7 @@ function Row(props) {
                             <Typography variant="h6" gutterBottom component="div">
                                 Fridges
                             </Typography>
-                             <AddNewFriedge/>
+                             {/* <AddNewFriedge/> */}
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
@@ -114,16 +115,12 @@ function Row(props) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {row.history.map((historyRow,index) => (
+                                    {row.fridges.map((fridge,index) => (
 
                                             <EditFridgeRow key={index}
-                                                            fridgeId={index}
-                                                           type={historyRow.date}
-                                                           quantitiy={historyRow.amount}
-                                                           serialNumber={historyRow.date}
                                                            classes={classes}
                                                            classesNames={classesNames}
-                                                           historyRow={historyRow}
+                                                           fridge={fridge}
                                             />
 
 
@@ -164,7 +161,9 @@ const rows = [
     createData('Gingerbread', 356, 16.0, 49),
 ];
 
-export default function CustomerTable() {
+export default function CustomerTable({
+    customers
+}) {
 
     return (
         <TableContainer component={Paper}>
@@ -173,15 +172,16 @@ export default function CustomerTable() {
                     <TableRow>
                         <TableCell />
                         <TableCell>Name</TableCell>
-                        <TableCell align="center">Location</TableCell>
+                        <TableCell align="center"></TableCell>
                         <TableCell align="center">Phone</TableCell>
                         <TableCell align="center">Email</TableCell>
+                        <TableCell align="center" >Fridges</TableCell>
                         <TableCell align="center" >Actions</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <Row key={row.name} row={row}/>
+                    {customers.map((customer,index) => (
+                        <Row key={index}  row={customer}/>
 
                     ))}
                 </TableBody>

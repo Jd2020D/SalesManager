@@ -8,9 +8,11 @@ const populateFridgesForSingleCustomer=async (customer)=>{
         const {_id:fridgeId,quantity} =fridge;
         const unPackedFridge = await Fridge.findOne({_id:fridgeId});
         const {serialNumber,type,createdAt,updatedAt}=unPackedFridge;
+        console.log(unPackedFridge)
         return {quantity:quantity,_id:fridgeId,serialNumber,type,createdAt,updatedAt}
 
     })
+    console.log(await Promise.all(unPackedFridges))
     return {_id:customerId,firstName,lastName,email,phone,location,fridges:await Promise.all(unPackedFridges)};
 
 }

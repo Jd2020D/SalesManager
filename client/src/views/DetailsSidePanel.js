@@ -16,6 +16,8 @@ import AddIcon from '@material-ui/icons/Add';
 import Slider from '@material-ui/core/Slider';
 import {withStyles} from "@material-ui/core";
 import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle';
+import FormLabel from "@material-ui/core/FormLabel";
+import KitchenIcon from '@material-ui/icons/Kitchen';
 const customersArr=[
     {
         _id:1,firstName:"jehad",lastName:"jaber",location:{lat:0,lng:0}
@@ -118,13 +120,17 @@ const DetailsSidePanel = ({
                                 ? {background: '#fbc15c'}
                             :{background:'#2179c3'}}>
                                 <Typography gutterBottom variant="h5" component="h2" >
-                                    {customer.firstName} {customer.lastName}
+                                    {customer.firstName} {customer.lastName}                               
+                                   {viewDealer&& <FormLabel style={{float:'right'}}>   {customer.location.name}</FormLabel>}
+                                   {!viewDealer&& <FormLabel   style={{float:'right',color:'yellow'}}>   {customer.fridges.length}   <KitchenIcon color="inherit"/>
+ </FormLabel> }
+
                                 </Typography>
                                 <Button
                                     variant="contained"
-                                    color="default"
+                                    color="secondary"
                                     className={classes.button}
-                                    startIcon={<Delete />}
+                                    startIcon={<Delete  />}
                                     onClick={e=>deleteCustomer(customer)}
                                 >
                                     Delete
@@ -146,7 +152,7 @@ const DetailsSidePanel = ({
                                     className={classes.button}
                                     startIcon={<PersonPinCircleIcon />}
                                 >
-                                    View Customers
+                                    View Customers [{customer.customers.length}]
                                 </Button>}
 
                                 <Button
@@ -165,12 +171,12 @@ const DetailsSidePanel = ({
                                               className={classes.button}
                                               startIcon={<CancelIcon />}
                                     >Cancel</Button>
-                                    :<Button  onClick={e=>toggleCustomer(customer,true)}
+                                    :<><Button  onClick={e=>toggleCustomer(customer,true)}
                                               variant="contained"
                                               color="default"
                                               className={classes.button}
                                               startIcon={viewDealer?<ZoomOutMapIcon/>:<ExploreIcon />}
-                                    >Update {viewDealer?"Region":"Location"} </Button>}
+                                    >Update {viewDealer?`Region`:"Location"} </Button></> } 
 
                             </CardContent>
                             {/* <button onClick={e=>setCustomers(customers.filter((customers,index)=>item.lat!==marker.lat&&item.lng!==marker.lng))}>Delete location</button> */}

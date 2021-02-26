@@ -42,28 +42,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CustomerForm = ({
-    changeComponent,
     onSubmitProp,
     requestLocation,
     locationResponse,
-    title
+    title,
+    isEdit,
+    customer,
+    changeComponent
 }) => {
     const classes = useStyles();
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [location, setLocation] = useState({});
+    const [firstName, setFirstName] = useState(customer.firstName);
+    const [lastName, setLastName] = useState(customer.lastName);
+    const [email, setEmail] = useState(customer.email);
+    const [phone, setPhone] = useState(customer.phone);
+    const [location, setLocation] = useState(customer.location);
     const [firdge, setFridge] = useState("");
     const [quantity, setQuantity] = useState(0);
     const [errors,setErrors]=useState([]);
     const onSubmit = async e => {
         e.preventDefault()
-        const res=await onSubmitProp({firstName,lastName,email,phone,location,firdge,quantity});
+        let submitAtrr={firstName,lastName,email,phone,location};
+        if (isEdit)
+            {delete submitAtrr.location; submitAtrr._id=customer._id}
+        console.log(submitAtrr)
+        const res=await onSubmitProp(submitAtrr);
         setErrors(res.errors);
         // if(res.errors.length<=0)
         //     res.source.cancel();
+        if(res.success)
+        changeComponent(0);
 
     }
     useEffect(() => {
@@ -141,12 +149,17 @@ const CustomerForm = ({
                     autoFocus
                 />
 
+               {!isEdit&&<>
                 <FormControl
                     fullWidth
                     variant="outlined"
                     className={classes.formControl}
                 >
                     <FormLabel>Location:</FormLabel>
+                    <Button fullWidth onClick={e=>requestLocation()}  variant="contained" color="secondary">
+                            Request Location
+                </Button>
+
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -160,7 +173,10 @@ const CustomerForm = ({
                         value={"lat: "+location.lat + "    lng: "+location.lng }
                     />
                 </FormControl>
-                <FormControl
+                </>
+            
+                }
+                {/* <FormControl
                     fullWidth
                     variant="outlined"
                     className={classes.formControl}
@@ -196,7 +212,7 @@ const CustomerForm = ({
                     label="Quantity"
                     name="quantity"
                     autoFocus
-                />
+                /> */}
 
 
                 <Button fullWidth type="submit" variant="contained" color="primary">
@@ -205,10 +221,6 @@ const CustomerForm = ({
 
 
             </form>
-            <Button fullWidth onClick={e=>requestLocation()}  variant="contained" color="secondary">
-                Request Location
-            </Button>
-
             {errors.map((err, index) => <p key={index} style={{color:"red"}}>{err}</p>)}
 
         </div>

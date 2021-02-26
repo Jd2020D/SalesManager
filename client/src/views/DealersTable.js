@@ -59,6 +59,8 @@ function createData(name, calories, fat, carbs ,count) {
 
 function Row(props) {
     const { row } = props;
+    const {viewMember} =props;
+    const {deleteMember} =props;
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
     const classesNames =useStyles();
@@ -72,16 +74,16 @@ function Row(props) {
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {row.name}
+                    {row.firstName} {row.lastName}
                 </TableCell>
-                <TableCell align="center"><a href="#">{row.calories}</a></TableCell>
-                <TableCell align="center">Count</TableCell>
-                <TableCell align="center">{row.fat}</TableCell>
-                <TableCell align="center">{row.carbs}</TableCell>
+                <TableCell align="center"><a  onClick={e=>e.preventDefault()}>{row.location.name}</a></TableCell>
+                <TableCell align="center">{row.phone}</TableCell>
+                <TableCell align="center">{row.email}</TableCell>
+                <TableCell align="center">{row.customers.length}</TableCell>
                 <TableCell align="center">
                     <div className={classes.root }>
-                        <Button variant="contained" className={classesNames.but}>Edit</Button>
-                        <Button variant="contained" className={classesNames.but}>Delete</Button>
+                        <Button variant="contained" onClick={e=>viewMember()} className={classesNames.but}>Edit</Button>
+                        <Button variant="contained" onClick={e=>deleteMember()} className={classesNames.but}>Delete</Button>
                     </div>
 
                 </TableCell>
@@ -93,7 +95,7 @@ function Row(props) {
                             <Typography variant="h6" gutterBottom component="div">
                                 Customers
                             </Typography>
-                            <CustomerTable/>
+                            <CustomerTable customers={row.customers}/>
                             {/*<Table size="small" aria-label="purchases">*/}
                             {/*    <TableHead>*/}
                             {/*        <TableRow>*/}
@@ -148,7 +150,12 @@ const rows = [
     createData('Gingerbread', 356, 16.0, 49),
 ];
 
-export default function DealersTable() {
+export default function DealersTable({
+    dealers,
+    viewMember,
+    deleteMember
+}) {
+    
 const classes =useStyles();
     return (
         <TableContainer component={Paper}>
@@ -157,20 +164,19 @@ const classes =useStyles();
             </Typography>
             <Table aria-label="collapsible table">
                 <TableHead>
-
                     <TableRow>
                         <TableCell />
                         <TableCell>Name</TableCell>
-                        <TableCell align="center">Governorate</TableCell>
+                        <TableCell align="center">Region Name</TableCell>
                         <TableCell align="center">Phone</TableCell>
-                        <TableCell align="center">Customer Count</TableCell>
                         <TableCell align="center">Email</TableCell>
+                        <TableCell align="center">Customers</TableCell>
                         <TableCell align="center" >Actions</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <Row key={row.name} row={row}/>
+                    {dealers.map((dealer,index) => (
+                        <Row key={index} row={dealer} deleteMember={()=>deleteMember(dealer)} viewMember={()=>{ console.log(dealer); viewMember(dealer);}}/>
 
                     ))}
                 </TableBody>

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default class AddNewPerson extends Component {
+export default class AddNewFriedge extends Component {
 
     constructor(props){
         super(props);

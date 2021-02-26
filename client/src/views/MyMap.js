@@ -28,12 +28,13 @@ function LocationMarker() {
   }
   
 const MyMap = (props) => {
-    const [initialPosition, setInitialPosition] = useState([0,0]);
+    // const [initialPosition, setInitialPosition] = useState([0,0]);
     const {marker} =props;
+    const {initialView} =props
     
     return (
         <>
-        <MapContainer  center={[31.991480164920812,35.24500163655797]} zoom={13} scrollWheelZoom={false}>
+        <MapContainer zoomControl={false} center={initialView?initialView:[31.991480164920812,35.24500163655797]} zoom={13} scrollWheelZoom={false}>
         <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

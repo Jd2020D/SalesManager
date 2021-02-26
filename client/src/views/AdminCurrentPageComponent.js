@@ -3,21 +3,22 @@ import MapPanel from './MapPanel';
 import CustomerTable from "./CustomerTable";
 import DealersTable from "./DealersTable";
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
+
 import { CurrentPageComponent } from './CurrentPageComponent';
 import { set } from 'lodash';
-import Button from "@material-ui/core/Button";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 export const AdminCurrentPageComponent = ({
     currentPageNumber,
     user,
     changePage
 }) => {
     const [dealers, setDealers] = useState([]);
-    const currentDealer = useRef();
+    const currentDealer = useRef({isView:false});
     useEffect(() => {
         axios.get("http://localhost:8000/api/users/dealers/",{withCredentials:true})
             .then(response=>{
+                console.log(response.data)
                 setDealers(response.data);
             })
             .catch(err=>console.log(err))
@@ -31,7 +32,8 @@ export const AdminCurrentPageComponent = ({
         .then(response=>{
                 success=true;
                 setDealers(dealers.map((dealer)=>dealer._id===updateDealer._id?response.data:dealer));
-        })
+                currentDealer.current={isView:false}
+            })
         .catch(err=>{ 
             console.log(updateDealer);
             console.log(err);
@@ -65,6 +67,7 @@ export const AdminCurrentPageComponent = ({
                 .then((response) => {setDealers([...dealers,response.data]);success=true})
                 .catch(err =>{
                     try{
+                        console.log(err)
                         console.log(err.response.data.errors)
                         const errorResponse = err.response.data.errors; // Get the errors from err.response.data
                         for (const key of Object.keys(errorResponse)) { // Loop through all errors and get the messages
@@ -81,16 +84,10 @@ export const AdminCurrentPageComponent = ({
 
 
     }
-    dealers.length>0&&console.log('dealers',dealers[0].location)
-    return currentPageNumber===0&&dealers.length>0?<MapPanel viewMember={(dealer)=>{currentDealer.current=dealer; changePage(5);}} updateMember={updateDealer}  viewDealer={true} createMember={createDealer} deleteMember={deleteDealer} updateMember={updateDealer} members={dealers} user={user}/>
-    :currentPageNumber===1?<div><DealersTable /></div>
-    :currentPageNumber===5?
-    <div><Button onClick={e=>changePage(0)}
-                 variant="contained"
-                 style={{marginTop:'5px'}}
-                 color="default"
-                 startIcon={<ArrowBackIcon />}
-    >Back</Button>
+    return currentPageNumber===0&&dealers.length>0?<MapPanel editMember={currentDealer.current} viewMember={(dealer)=>{currentDealer.current=dealer; changePage(5);}} updateMember={updateDealer}  viewDealer={true} createMember={createDealer} deleteMember={deleteDealer} updateMember={updateDealer} members={dealers} user={user}/>
+    :currentPageNumber===1?<div><DealersTable deleteMember={deleteDealer} viewMember={(dealer)=>{currentDealer.current={isView:true,...dealer}; changePage(0);}} dealers={dealers} /></div>
+    :currentPageNumber===5? 
+    <div><Button style={{float:'right'}} onClick={e=>{ changePage(0); }} variant="contained" color="primary">Back</Button>
         <CurrentPageComponent updateDealers={(data)=>setDealers(dealers.map((dealer)=>dealer._id===data._id?data:dealer))}
          isAdmin={user.Role.isAdmin} currentPageNumber={0} user={currentDealer.current}  /></div>
     :''

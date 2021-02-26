@@ -113,22 +113,21 @@ const MapPanel = ({
     viewDealer,
     deleteMember,
     createMember,
-    viewMember
+    viewMember,
+    editMember,
+    initialView
 }) => {
     const classes = useStyles();
 
     const [currentCustomer,setCurrentCustomer]=useState({_id:false,activeMarkerPin:false});
     const [locationToAdd,setLocationToAdd]=useState({});
-    const [zoomScale,setZoomScale]=useState(9);
-    const activeMarkerPin= useRef(false);
+    const [zoomScale,setZoomScale]=useState(initialView?12:9);
     const currentCustomerPanel=useRef();
-    console.log("render main")
     const zoomHandler=(scale)=>{
         setZoomScale(prev=>{
             return scale<0||scale>18?prev:scale;
         })
     }
-    console.log('customers ',customers[0].location);
     const updateCurrentCustomerLocation =(newMapLocation)=>{
         setCurrentCustomer({...currentCustomer,location:{...newMapLocation},activeMarkerPin:false});
         updateMember({...currentCustomer,location:{...newMapLocation}})
@@ -152,9 +151,6 @@ const MapPanel = ({
 
     }
     const deleteCustomer=(customer)=>{
-        // setCustomers(customers=>{
-        //     return customers.filter((customer,index)=>customer._id!==deletedCustomer._id);
-        // })
         deleteMember(customer);
         
 
@@ -183,7 +179,8 @@ const MapPanel = ({
     return (
         <Grid container spacing={3}>
             <Grid item xs={8}>
-                <MyMap marker={<CustomersMarkers
+                <MyMap initialView={initialView}
+                marker={<CustomersMarkers
                     {...sharedProps1}
                     activeMarkerPin={currentCustomer.activeMarkerPin}
                     updateCurrentCustomerLocation={updateCurrentCustomerLocation}
@@ -205,6 +202,7 @@ const MapPanel = ({
                     createMember={createMember}
                     updateMember={updateMember}
                     viewMember={viewMember}
+                    editMember={editMember}
                 />
             </Grid>
 

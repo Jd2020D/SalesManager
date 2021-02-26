@@ -6,24 +6,20 @@ import FridgeForm from "./FridgeForm";
 
 
 const EditFridgeRow = ({
-    type,
-    serialNumber,
-    quantitiy,
-    fridgeId,
    classesNames,
    classes,
-                           historyRow
+    fridge
                        }) => {
-
+    console.log(fridge)
     const [isEditing,setEditing]=useState(true);
 
-
-    return isEditing?<TableRow  >
+    // return isEditing?
+    return <TableRow  >
             <TableCell component="th" scope="row">
-                {historyRow.date}
+                {fridge.type.title}
             </TableCell>
-            <TableCell>{historyRow.customerId}</TableCell>
-            <TableCell align="center">{historyRow.amount}</TableCell>
+            <TableCell>{fridge.serialNumber}</TableCell>
+            <TableCell align="center">{fridge.quantity}</TableCell>
             <TableCell align="center">
                 <div className={classes.root}>
                     <Button variant="contained" className={classesNames.but} onClick={(e)=>setEditing(!isEditing)}>Edit</Button>
@@ -32,19 +28,19 @@ const EditFridgeRow = ({
             </TableCell>
         </TableRow>
 
-        :<TableRow >
-            <TableCell component="th" scope="row">
-                <input value={type}/>
-            </TableCell>
-            <TableCell><input value={serialNumber}/></TableCell>
-            <TableCell align="center"><input value={quantitiy}/></TableCell>
-            <TableCell align="center">
-                <div className={classes.root}>
-                    <Button variant="contained" className={classesNames.but} onClick={(e)=>setEditing(!isEditing)}>Cancel</Button>
-                    <Button variant="contained" className={classesNames.but} >Delete</Button>
-                </div>
-            </TableCell>
-        </TableRow>
+        // :<TableRow >
+        //     <TableCell component="th" scope="row">
+        //         <input value={type}/>
+        //     </TableCell>
+        //     <TableCell><input value={serialNumber}/></TableCell>
+        //     <TableCell align="center"><input value={quantitiy}/></TableCell>
+        //     <TableCell align="center">
+        //         <div className={classes.root}>
+        //             <Button variant="contained" className={classesNames.but} onClick={(e)=>setEditing(!isEditing)}>Cancel</Button>
+        //             <Button variant="contained" className={classesNames.but} >Delete</Button>
+        //         </div>
+        //     </TableCell>
+        // </TableRow>
     // <FridgeForm
     //     classes={classes}
     //     classesName={classesNames}

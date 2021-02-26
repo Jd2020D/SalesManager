@@ -10,13 +10,13 @@ const populateUserCustomers=async(user)=>{
 const {_id,password,phone,firstName,lastName,email,location,username,createdAt,updatedAt,Role}=user;
 const customers= await Promise.all(populateFridgesForManyCustomers(user.customers));
 //   console.log(customers[0].fridges);
-
 return {_id,firstName,lastName,email,phone,location,username,Role,customers,password,createdAt,updatedAt};
 
 }
 
 const populateManyUsersCustomers= async(users)=>{
     return await Promise.all(users.map(async(user)=>{
+
             return await populateUserCustomers(user);
     }));
 }

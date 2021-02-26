@@ -4,6 +4,7 @@ import CreateCustomer from './CreateCustomer';
 import DealerForm from './DealerForm';
 import CreateDealer from './CreateDealer';
 import EditDealer from './EditDealer';
+import EditCustomer from './EditCustomer';
 const SidePanels = ({
     sharedProps1,
     zoomHandler,
@@ -14,10 +15,13 @@ const SidePanels = ({
     locationResponse,
     createMember,
     updateMember,
-    viewMember
+    viewMember,
+    editMember
+
 }) => {
-    const [currentPanel,setCurrentPanel]=useState(0);
-    const memberEdit=useRef();
+    const [currentPanel,setCurrentPanel]=useState(editMember.isView?2:0);
+    const memberEdit=useRef(editMember);
+    console.log(memberEdit)
         return currentPanel===0?
             <DetailsSidePanel
             {...sharedProps1}
@@ -35,8 +39,9 @@ const SidePanels = ({
             <CreateCustomer createCustomer={createMember} locationResponse={locationResponse} requestLocation={requestLocation} changeComponent={(num)=>setCurrentPanel(num)}/>
             :currentPanel===2&&sharedProps1.viewDealer?
             <EditDealer updateDealer={updateMember} locationResponse={locationResponse} requestLocation={requestLocation} dealer={memberEdit.current} changeComponent={(num)=>{setCurrentPanel(num);console.log(num)}} />
+            :currentPanel===2?
+            <EditCustomer updateCustomer={updateMember} locationResponse={locationResponse} requestLocation={requestLocation} customer={memberEdit.current} changeComponent={(num)=>{setCurrentPanel(num);console.log(num)}} />
             :''
-    
 }
 
 export default SidePanels

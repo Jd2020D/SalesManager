@@ -9,10 +9,10 @@ const Info = {
       },
       lastName: {
         type: String,
-        validate:{
-            validator: val=> (/^[a-zA-Z\-]+$/).test(val),
-            message:"Please enter valid last name"
-        }
+        // validate:{
+        //     validator: val=> (/^[a-zA-Z\-]+$/).test(val),
+        //     message:"Please enter valid last name"
+        // }
       },
       email: {
         type: String,

@@ -59,12 +59,12 @@ const DealerForm = ({
     const [email, setEmail] = useState(dealer.email);
     const [username, setUsername] = useState(dealer.username);
     const [phone, setPhone] = useState(dealer.phone);
-    const [location, setLocation] = useState(dealer.location);
-    const [region, setRegion] = useState(dealer.region);
+    const [location, setLocation] = useState(dealer.location.lat?{lat:dealer.location.lat,lng:dealer.location.lng}:{});
+    const [region, setRegion] = useState(dealer.location.name?dealer.location.name:'');
     const [errors,setErrors]=useState([]);
     const onSubmit = async e => {
         e.preventDefault()
-        let submitAtrr={password,confirmPassword,firstName,lastName,email,username:username,phone,location: {
+        let submitAtrr={password,confirmPassword:password,firstName,lastName,email,username:username,phone,location: {
             lat:location.lat,lng:location.lng,name:region
         }};
         if(isEdit){
@@ -200,7 +200,7 @@ const DealerForm = ({
                         autoComplete="password"
                         autoFocus
                     />
-                    <TextField
+                    {/* <TextField
                         onChange={(e)=>setConfirmPassword(e.target.value)} value ={confirmPassword}
 
                         variant="outlined"
@@ -212,7 +212,7 @@ const DealerForm = ({
                         name="ConfirmPassword"
                         autoComplete="ConfirmPassword"
                         autoFocus
-                    />
+                    /> */}
                 </>:''}
 
 
